@@ -49,7 +49,7 @@ module.exports.run = function(config) {
 		return require('./tasks/sprites').run(config);
 
 	if(args.spa == 'deploy') {
-		require('./tasks/build').run(config, function(err) {
+		return require('./tasks/build').run(config, function(err) {
 			if(err)
 				return u.log.error('Build error', err);
 			require('./tasks/upload').run(config);
