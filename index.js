@@ -27,9 +27,11 @@ module.exports.run = function(config) {
 	config.sprite_map = config.sprite_map || join(config.sprites_dest, 'map.js');
 	config.locals = config.locals || {};
 	config.disable_jade = config.disable_jade || false;
+	config.cloudfront_distribution_id = config.cloudfront_distribution_id || false;
 
 	var args = require('minimist')(process.argv.slice(2));
 	args.spa = args.spa || 'build';
+	config.local = args.spa == 'build';
 
 	config.package = (args.spa == 'package');
 	if(!config.package)
@@ -48,11 +50,20 @@ module.exports.run = function(config) {
 	if(args.spa == 'sprites')
 		return require('./tasks/sprites').run(config);
 
+	if(args.spa == 'cloudfront')
+		return require('./tasks/cloudfront').run(config);
+
 	if(args.spa == 'deploy') {
 		return require('./tasks/build').run(config, function(err) {
 			if(err)
 				return u.log.error('Build error', err);
-			require('./tasks/upload').run(config);
+			setTimeout(function() {
+				require('./tasks/upload').run(config, function(err) {
+					if(err)
+						return u.log.error('Build error', err);
+					require('./tasks/cloudfront').run(config);
+				});
+			}, 500);
 		});
 	}
 

@@ -29,10 +29,14 @@ module.exports.run = function(config, cb) {
 					require('./jade').run(config, next);
 				})
 				.step('server', function(res, next) {
-					require('./server').run(config, next);
+					if(config.local)
+						return require('./server').run(config, next);
+					next();
 				})
 				.step('watch', function(res, next) {
-					require('./watch').run(config, next);	
+					if(config.local)
+						return require('./watch').run(config, next);
+					next();
 				})
 				.run(cb);
 };
