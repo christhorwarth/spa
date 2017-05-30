@@ -28,6 +28,7 @@ module.exports.run = function(config) {
 	config.locals = config.locals || {};
 	config.disable_jade = config.disable_jade || false;
 	config.cloudfront_distribution_id = config.cloudfront_distribution_id || false;
+	config.proxy = config.proxy || [];
 
 	var args = require('minimist')(process.argv.slice(2));
 	args.spa = args.spa || 'build';
