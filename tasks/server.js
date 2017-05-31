@@ -41,7 +41,7 @@ module.exports.run = function(config, cb) {
 				'body': req.rawBody,
 				'url': proxy.url + req.originalUrl,
 				'strictSSL': false
-			}, function(err, _res, body) {console.log(err, body);
+			}, function(err, _res, body) {
 				_res = _res || {};
 				if(!_res.headers)
 					_res.headers = {};
