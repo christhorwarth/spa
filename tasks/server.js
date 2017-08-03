@@ -30,7 +30,8 @@ module.exports.run = function(config, cb) {
 				'x-admin-auth-token',
 				'x-admin-user-id',
 				'x-loc-lat',
-				'x-loc-lng'
+				'x-loc-lng',
+				'x-auth-token'
 			]);
 
 			var headers = _.extend({}, reqHeaders, proxy.headers || {});
